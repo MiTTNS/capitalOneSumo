@@ -1,0 +1,211 @@
+* {
+  box-sizing: border-box
+}
+
+html {
+ 
+  font-family: 'Thasadith', sans-serif;
+  line-height: 1.6;
+  color: black;
+  background: #F6F6F6;
+  background-color: white;
+}
+
+h1 {
+  text-align: center;
+  padding: 1.5rem 2.5rem;
+  /*background-image: linear-gradient(120deg, #fbc2eb 0%, #a6c1ee 100%);*/
+  background-color: black;
+  margin: 0 0 2rem 0;
+  font-size: 1.5rem;
+  color: white;
+}
+
+img {
+  display: block;
+  margin: auto;
+  max-width: 100%;
+}
+
+video {
+  display: block;
+  margin: auto;
+  max-width: 100%;
+}
+
+audio {
+  display: block;
+  margin: 1rem auto;
+  max-width: 100%;
+}
+
+p {
+  padding: 0 2.5rem 2.5rem;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+#root {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.card {
+  margin: 1rem;
+  background: black;
+  color: white;
+  border-radius: 4px;
+  overflow: hidden;
+  flex: 1 1 calc(33% - 2rem);
+}
+
+.formContainer {
+  text-align: left;
+  max-width: 1000px;
+  margin: 0 auto;
+  background-color: rgba(140, 140, 140, 0.8);
+  background-color: white;
+  color: black;
+  padding: 30px;
+  border-radius: 4px;
+  margin-top: 2%;
+  border: solid;
+  border-color: black;
+
+}
+
+.formSearch {
+  text-align: left;
+  padding: 0;
+  font-size: 1.9rem;
+  margin-bottom: 10px;
+}
+
+.datePicker {
+  text-align: left;
+  padding-top: 5px;
+}
+
+.searchButton {
+  text-align: right;
+}
+
+.tags {
+  color: rgb(150, 150, 150);
+  display: flex;
+  max-width: 90%;
+  flex-wrap: wrap;
+}
+
+.tag:hover {
+  text-decoration: underline;
+}
+
+.searchContainer {
+  display: inline-flex;
+  flex-wrap: wrap;
+  margin: 3px;
+  width: 49%;
+  text-align: right;
+  
+}
+
+.genericBar {
+  display: block;
+  border: solid;
+  font-size: 25px;
+  text-align: left;
+  width: 100%;
+  border-color: rgba(0,0,0,0.0);
+  border-bottom: black solid 1px;
+  /*box-shadow: 1px -1px 5px rgba(0, 0, 0, .35);*/
+}
+
+.genericSelect {
+  display: block;
+  border-radius: 4px;
+  border: solid;
+  border-color: rgba(0,0,0,0.3);
+  font-size: 20px;
+  text-align: left;
+  width: 100%;
+  margin-top: 10px;
+  color: rgba(0,0,0,0.7);
+}
+
+.nextPageBtn {
+  text-align: center;
+  padding: 15px;
+  margin-bottom: 10px;
+  background-color: black;
+  color: white;
+}
+
+.nextPageBtn:hover {
+  text-decoration: underline;
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+.remove {
+  color: black;
+  text-align: right;
+}
+
+.searchBtns {
+  border-radius: 4px;
+  border: solid;
+  border-color: rgba(0,0,0,1.0);
+  background-color: white;
+  padding: 6px;
+}
+
+.searchBtns:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.nextAndBack {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.nextAndBackBtn {
+  background-color: black;
+  color: white;
+  width: 48%;
+  margin: 1%;
+  text-align: center;
+  padding: 15px;
+}
+
+.nextAndBackBtn:hover {
+  text-decoration: underline;
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+@media only screen and (max-width: 1100px) {
+  .card {
+    display: block;
+    width: 90%;
+    text-align: center;
+  }
+
+  .container {
+    display: block;
+    width: 91%;
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  .searchContainer {
+    width: 100%;
+  }
+}
