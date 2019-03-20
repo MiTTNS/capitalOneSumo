@@ -11,10 +11,16 @@ const perameeters = ['general search',
 'secondary creator', 
 'title', 
 'year start', 
-'year end']
+'year end'];
+const searchablePerameters = ['center', 
+'media type', 
+'nasa id', 
+'photographer',
+'secondary creator'];
+const yearPerameters = ['year start', 'year end'];
 
 
-function createVideo(item, container) {
+function createVideo(item, container, searchTerm) {
 	// load video and info and present in a card
 
 	fetch(encodeURI(item.href)).then(function(response2) {
@@ -51,13 +57,18 @@ function createVideo(item, container) {
 			card.appendChild(h1);
 			card.appendChild(p);
 			card.appendChild(getLocationString(item));
+
+			for (i = 0; i < searchTerms.length; i++) {
+				card.appendChild(getGenericString(item, searchTerms[i]));
+			}
+
 			card.appendChild(getTagString(item));
 		});
 	})
 }
 
 
-function createImage(item, container) { 
+function createImage(item, container, searchTerms) { 
 	// load image and info and present in a card
 
 	fetch(encodeURI(item.href)).then(function(response2) {
@@ -67,6 +78,7 @@ function createImage(item, container) {
 		}
 
 		response2.json().then(function(data2) {
+			//console.log(searchTerms)
 			const card = document.createElement('div');
 			card.setAttribute('class', 'card');
 
@@ -91,13 +103,18 @@ function createImage(item, container) {
 			card.appendChild(h1);
 			card.appendChild(p);
 			card.appendChild(getLocationString(item));
+
+			for (i = 0; i < searchTerms.length; i++) {
+				card.appendChild(getGenericString(item, searchTerms[i]));
+			}
+
 			card.appendChild(getTagString(item));
 		});
 	})
 }
 
 
-function createAudio(item, container) {
+function createAudio(item, container,searchTerms) {
 	// load audio and info and present in a card
 
 	fetch(item.href).then(function(response2) {
@@ -137,6 +154,11 @@ function createAudio(item, container) {
 			card.appendChild(h1);
 			card.appendChild(p);
 			card.appendChild(getLocationString(item));
+
+			for (i = 0; i < searchTerms.length; i++) {
+				card.appendChild(getGenericString(item, searchTerms[i]));
+			}
+
 			card.appendChild(getTagString(item));
 		});
 	})
@@ -194,8 +216,38 @@ function getLocationString(item) {
 	return locationText;
 }
 
+function getGenericString(item, searchTerm) {
+	const p = document.createElement('p');
+	p.setAttribute('class', 'tags');
+	p.textContent = searchTerm + ':';
+
+	const searchTermPath = 'item.data[0].' + searchTerm.split(' ').join('_');
+
+	const div = document.createElement('div');
+
+	if (eval(searchTermPath) != undefined) {
+		div.setAttribute('class', 'tag');
+		//div.setAttribute('onclick', 'doSearchWith(tagURL(this.textContent))');
+
+		if (searchTerm == 'date created') {
+			div.setAttribute('onclick', 'doSearchWith(tagURL(this.textContent.substring(0, 3)))');
+		} else {
+			div.setAttribute('onclick', 'doSearchWith(tagURL(this.textContent))');
+		}
+
+		div.textContent = ' ' + eval(searchTermPath);
+	} else {
+		div.textContent = 'unknown'
+	}
+
+	p.appendChild(div);
+
+	return p;
+}
+
 function doSearchWith(url) {
 	app.innerHTML = "";
+	searchTerms = form2SearchTerms();
 
 	const container = document.createElement('div');
 	container.setAttribute('class', 'container');
@@ -210,17 +262,19 @@ function doSearchWith(url) {
 		response.json().then(function(data) {
 			var items = data.collection.items;
 
+			console.log(data);
+
 			if (items.length == 0) {
 				window.alert('no results returned for this search');
 			}
 
 			items.forEach(item => {				
 				if (item.data[0].media_type == 'image') {
-					createImage(item, container);
+					createImage(item, container, searchTerms);
 				} else if (item.data[0].media_type == 'video') {
-					createVideo(item, container);
+					createVideo(item, container, searchTerms);
 				} else if (item.data[0].media_type == 'audio') {
-					createAudio(item, container);
+					createAudio(item, container, searchTerms);
 				}
 			})
 
@@ -313,6 +367,21 @@ function form2URL() {
 		} 
 	}
 	return searchURL;
+}
+
+function form2SearchTerms() {
+	var searchTerms = [];
+	var form = document.getElementById('form2');
+	var i;
+
+	for (i = 3; i < form2.elements.length - 2; i+=2) {
+		if (searchablePerameters.includes(form2.elements[i].value) && !searchTerms.includes(form2.elements[i].value)) {
+			searchTerms.push(form2.elements[i].value);
+		} else if (yearPerameters.includes(form2.elements[i].value) && !searchTerms.includes('date created')) {
+			searchTerms.push('date created');
+		}
+	}
+	return searchTerms;
 }
 
 function addSearchParameter() {
